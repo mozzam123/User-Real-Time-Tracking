@@ -3,11 +3,14 @@ const http = require("http");
 const socketIO = require("socket.io");
 const mongoose = require("mongoose");
 const apiRouter = require("./routes/api");
+const setupSocket  = require("./socket")
 require("dotenv").config();
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
+
+// Parse request bodies
+app.use(express.json());
 
 const DB = process.env.DATABASE;
 mongoose
@@ -19,15 +22,8 @@ mongoose
     console.log(`Database error: ${err}`);
   });
 
-// Socket connection
-io.on("connection", (socket) => {
-  console.log("A user connected");
-  
-  // Listen for custom event 'pageVisit'
-  socket.on("pageVisit", (data) => {
-    console.log("Page visit data received:", data);
-  });
-});
+// Setup Socket.IO
+const io = setupSocket(server);
 
 // Use API routes
 app.use("/api", apiRouter);
