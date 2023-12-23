@@ -3,8 +3,8 @@ const socket = io("http://localhost:2222");
 
 // Example: Emitting page transition event
 const pageVisitData = {
-  userId: '778',
-  page: '/analytics',
+  userId: '223',
+  page: '/register',
 };
 
 socket.emit('pageVisit', pageVisitData);

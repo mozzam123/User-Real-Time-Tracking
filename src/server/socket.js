@@ -11,7 +11,7 @@ const setupSocket = (server) => {
     // Listen for custom event 'pageVisit'
     socket.on("pageVisit", (data) => {
       console.log("Page visit data received:", data);
-      const newData = new PageTransitionModel({
+      new PageTransitionModel({
         userId: data.userId,
         page: data.page,
       }).save();
