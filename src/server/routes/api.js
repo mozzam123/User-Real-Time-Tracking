@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 const PageTransition = require("../models/PageTransition");
 
 router.get("/summarizedData", async (req, res) => {
