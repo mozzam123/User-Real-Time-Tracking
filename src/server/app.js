@@ -3,20 +3,19 @@ const http = require('http');
 const socketIO = require('socket.io');
 const mongoose = require('mongoose');
 require("dotenv").config()
-
+const apiRouter = require("./routes/api")
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
-// Connect to MongoDB
-mongoose.connect( 
-    "mongodb://localhost:27017/", 
-    { 
-      dbName: "pageTransitionDB", 
-      useNewUrlParser: true, 
-      useUnifiedTopology: true, 
-    }
-  );
+const DB = process.env.DATABASE
+
+mongoose.connect(DB)
+  .then(() => {
+    console.log("Database connected for Real Time Trcking service");
+  }).catch((err) => {
+    console.log(`Database error: ${err}`);
+  })
 
 // Socket connection
 io.on('connection', (socket) => {
@@ -27,7 +26,7 @@ io.on('connection', (socket) => {
 
 
 // Use API routes
-// app.use('/api', apiRouter);
+app.use('/api', apiRouter);
 
 
 // Start the server
